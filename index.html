@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/ComerciosAvenidaSanMatn_1.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:20, minZoom:13
+        }).fitBounds([[-32.960615425473335,-68.89714002169015],[-32.90181880716027,-68.77949726623643]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 13,
+            maxZoom: 20,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_ComerciosAvenidaSanMatn_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CUENTA</th>\
+                        <td>' + (feature.properties['CUENTA'] !== null ? autolinker.link(feature.properties['CUENTA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PADRÓN</th>\
+                        <td>' + (feature.properties['PADRÓN'] !== null ? autolinker.link(feature.properties['PADRÓN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CUIT</th>\
+                        <td>' + (feature.properties['CUIT'] !== null ? autolinker.link(feature.properties['CUIT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TITULAR</th>\
+                        <td>' + (feature.properties['TITULAR'] !== null ? autolinker.link(feature.properties['TITULAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CELULAR</th>\
+                        <td>' + (feature.properties['CELULAR'] !== null ? autolinker.link(feature.properties['CELULAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TELEFONO</th>\
+                        <td>' + (feature.properties['TELEFONO'] !== null ? autolinker.link(feature.properties['TELEFONO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MAIL</th>\
+                        <td>' + (feature.properties['MAIL'] !== null ? autolinker.link(feature.properties['MAIL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOMBRE_FAN</th>\
+                        <td>' + (feature.properties['NOMBRE_FAN'] !== null ? autolinker.link(feature.properties['NOMBRE_FAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ACTIVIDAD_</th>\
+                        <td>' + (feature.properties['ACTIVIDAD_'] !== null ? autolinker.link(feature.properties['ACTIVIDAD_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">REAL_CALLE</th>\
+                        <td>' + (feature.properties['REAL_CALLE'] !== null ? autolinker.link(feature.properties['REAL_CALLE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">REAL_NRO</th>\
+                        <td>' + (feature.properties['REAL_NRO'] !== null ? autolinker.link(feature.properties['REAL_NRO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">POSTAL_CAL</th>\
+                        <td>' + (feature.properties['POSTAL_CAL'] !== null ? autolinker.link(feature.properties['POSTAL_CAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">POSTAL_NRO</th>\
+                        <td>' + (feature.properties['POSTAL_NRO'] !== null ? autolinker.link(feature.properties['POSTAL_NRO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ComerciosAvenidaSanMatn_1_0() {
+            return {
+                pane: 'pane_ComerciosAvenidaSanMatn_1',
+                radius: 5.200000000000001,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,26,28,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ComerciosAvenidaSanMatn_1');
+        map.getPane('pane_ComerciosAvenidaSanMatn_1').style.zIndex = 401;
+        map.getPane('pane_ComerciosAvenidaSanMatn_1').style['mix-blend-mode'] = 'normal';
+        var layer_ComerciosAvenidaSanMatn_1 = new L.geoJson(json_ComerciosAvenidaSanMatn_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ComerciosAvenidaSanMatn_1',
+            layerName: 'layer_ComerciosAvenidaSanMatn_1',
+            pane: 'pane_ComerciosAvenidaSanMatn_1',
+            onEachFeature: pop_ComerciosAvenidaSanMatn_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_ComerciosAvenidaSanMatn_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_ComerciosAvenidaSanMatn_1);
+        map.addLayer(layer_ComerciosAvenidaSanMatn_1);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/ComerciosAvenidaSanMatn_1.png" /> Comercios Avenida San Matín': layer_ComerciosAvenidaSanMatn_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
